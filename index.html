@@ -1,0 +1,131 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name=viewport content="width=device-width, initial-scale=1.0, minimum-scale=0.5 maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
+<link rel="stylesheet" href="css/mitema.min.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+  <script type="text/javascript" src="js/jquery.transform2d.js"></script>
+  <script type="text/javascript" src="js/jquery.grab.js"></script>
+  <script type="text/javascript" src="js/jquery.jplayer.js"></script>
+  <script type="text/javascript" src="js/mod.csstransforms.min.js"></script>
+  <script type="text/javascript" src="js/circle.player.js"></script>
+
+  <link rel="stylesheet" href="circle.skin/circle.player.css" type='text/css'>
+  <link rel="stylesheet" href="css/estilo.css" type="text/css">
+  <script type="text/javascript">
+		$(document).ready(function(){
+			/*
+			 * Instance CirclePlayer inside jQuery doc ready
+			 *
+			 * CirclePlayer(jPlayerSelector, media, options)
+			 *   jPlayerSelector: String - The css selector of the jPlayer div.
+			 *   media: Object - The media object used in jPlayer("setMedia",media).
+			 *   options: Object - The jPlayer options.
+			 *
+			 * Multiple instances must set the cssSelectorAncestor in the jPlayer options. Defaults to "#cp_container_1" in CirclePlayer.
+			 */
+
+			var myCirclePlayer = new CirclePlayer("#jquery_jplayer_1",
+			{
+				mp3: "http://85.17.30.50:8064/;stream/1"
+			}, {
+				solution: "html, flash",
+    			swfPath: "js",
+    			supplied: "mp3, oga",
+    			autoPlay: false
+    		});
+    		myCirclePlayer.pause();
+
+var screen = $.mobile.getScreenHeight();
+var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
+var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
+var content = screen - header - footer - contentCurrent;
+$(".ui-content").height(content);
+var margen = content-250;
+$("#playbutton").css("margin-top",margen+"px");
+
+		});
+		
+$(document).on('pagecreate', '#pagetwo',  function(){		
+  	$("#mdd").attr("src", "http://www.montededios.us/");
+	 var screen = $.mobile.getScreenHeight();
+         var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
+         var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+         var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
+         var content = screen - header - footer - contentCurrent;
+         $(".ui-content").height(content);
+});
+
+		</script>
+  
+</head>
+<body>
+<div data-role="page" id="pageone">
+
+	<div data-role="panel" id="overlayPanel" data-display="overlay" data-position-fixed="true"> 
+	    <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">Close panel</a>
+  	</div> 
+  
+	<div data-role="header" data-position="fixed">
+	    <h1>Radio Conquista</h1>
+	    <a href="#overlayPanel" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Open left panel</a>
+	</div>
+   
+   <div data-role="main" class="ui-content">
+   <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+
+		<div id="metadata"></div>
+		<div id="playbutton">
+			<div id="audio" style="width:200px; margin:0 auto;">
+				<div id="cp_container_1" class="cp-container">
+					<div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+						<div class="cp-buffer-1"></div>
+						<div class="cp-buffer-2"></div>
+					</div>
+					<div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+						<div class="cp-progress-1"></div>
+						<div class="cp-progress-2"></div>
+					</div>
+					<div class="cp-circle-control"></div>
+					<ul class="cp-controls">
+						<li><a class="cp-play" tabindex="1">play</a></li>
+						<li><a class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+					</ul>
+				</div> 
+			</div>
+		</div>
+	</div>
+
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+      		<ul>
+      			<li><a href="#overlayPanel" data-icon="arrow-l">Community</a></li>
+		        <li><a href="#pagetwo" data-icon="home">Monte de Dios</a></li>
+	      	</ul>
+	    </div>
+	</div>
+	
+</div> 
+
+<div data-role="page" id="pagetwo">
+	<div data-role="header" data-position="fixed">
+		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Back</a> 
+		<h1>Radio Conquista</h1>
+	</div>
+	<div data-role="main" class="ui-content">
+                <div style="width: 100%; height: 100%; overflow: scroll !important;-webkit-overflow-scrolling:touch !important;">
+		  <iframe id="mdd" src="" style="width:98%; height:10000px;"></iframe>
+                </div>
+	</div>
+</div>
+
+</body>
+</html> 
