@@ -81,25 +81,9 @@ $(document).ready(function(){
 	$("#pagethree_content").height(content+footer);
 	var margen = content-250;
 	$("#playbutton").css("margin-top",margen+"px");
-	
-	$('#contenedor').on('touchstart', function(event){});
-	
+		
 	$("div:jqmData(role='panel')").css('margin-top',  ($("div:jqmData(role='header')").height()));
 
-});
-
-$(document).on('pagecreate', '#pagetwo',  function(){		
-  	// $("#mdd").attr("src", "http://www.montededios.us/");
-  	//$("#contenedor").load("http://montededios.us");
-	 var screen = $.mobile.getScreenHeight();
-     var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
-     var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-     var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
-     var content = screen - header - contentCurrent;
-     $(".ui-content").height(content);
-});
-
-$(document).on('pagecreate', '#pagethree', function(){
 });
 
 
@@ -124,7 +108,7 @@ $(document).on('pagecreate', '#pagethree', function(){
   
 	<div data-role="header" data-position="fixed">
 	    <h1>Radio Conquista</h1>
-	    <a href="#overlayPanel" class="ui-nodisc-icon ui-alt-icon" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Open left panel</a>
+	    <a href="#overlayPanel" id="abre_panel" class="panel-btn">Open left panel</a>
 	</div>
    
    <div data-role="main" class="ui-content" id="pageone_content">
@@ -159,29 +143,12 @@ $(document).on('pagecreate', '#pagethree', function(){
 		<div data-role="navbar">
       		<ul id="ul-mdd">
       			<li><a href="#pagethree" data-icon="custom" id="comm-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Community</a></li>
-		        <li><a href="#pagetwo" data-icon="custom" id="mdd-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Monte de Dios</a></li>
+		        <li><a href="#pagetwo" data-icon="custom" id="mdd-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false" onclick="window.open('http://montededios.us', '_blank', 'location=yes');">Monte de Dios</a></li>
 	      	</ul>
 	    </div>
 	</div>
 	
 </div> 
-
-<div data-role="page" id="pagetwo">
-	<div data-role="header" data-position="fixed">
-		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Home</a> 
-		<h1>Monte de Dios</h1>
-	</div>
-	<div data-role="main" class="ui-content" id="pagetwo_content">
-                <div id="contenedor" style="width: 100%; height: 100%; overflow: scroll !important;-webkit-overflow-scrolling:touch !important;">
-<!-- Open in InAppBrowser -->
-<p><a href="#" onclick="window.open('http://montededios.us', '_blank', 'location=yes');">_blank</a></p>
-<!-- Open in Mobile Safari -->
-<p><a href="#" onclick="window.open('http://montededios.us', '_system', 'location=yes');">_system</a></p>
-<!-- Open in Same Webview -->
-<p><a href="#" onclick="window.open('http://montededios.us', '_self', 'location=yes');">_self</a></p>
-                </div>
-	</div>
-</div>
 
 <div data-role="page" id="pagethree">
 	<div data-role="header" data-position="fixed">
