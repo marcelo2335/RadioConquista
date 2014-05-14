@@ -1,114 +1,169 @@
-﻿<!DOCTYPE HTML>
+﻿<!DOCTYPE html>
 <html>
+
 <head>
+
   <meta charset="utf-8">
   <meta name=viewport content="width=device-width, initial-scale=1.0, minimum-scale=0.5 maximum-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
-<link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
-<link rel="stylesheet" href="css/mitema.min.css">
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-  <script type="text/javascript" src="js/jquery.transform2d.js"></script>
-  <script type="text/javascript" src="js/jquery.grab.js"></script>
-  <script type="text/javascript" src="js/jquery.jplayer.js"></script>
-  <script type="text/javascript" src="js/mod.csstransforms.min.js"></script>
-  <script type="text/javascript" src="js/circle.player.js"></script>
+  
+  <link rel="stylesheet" href="pink.flag/m.jplayer.pink.flag.css" type="text/css" />
+  <link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+  <link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
+  <link rel="stylesheet" href="css/mitema.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
 
-  <link rel="stylesheet" href="circle.skin/circle.player.css" type='text/css'>
-  <link rel="stylesheet" href="css/estilo.css" type="text/css">
+  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="js/jquery.jplayer.min.js"></script>
+  <script>
+  $( document ).bind( "mobileinit", function() {
+    // Make your jQuery Mobile framework configuration changes here!
+	$.support.cors = true;
+	$.mobile.allowCrossDomainPages = true;
+	$.mobile.pushStateEnabled = false;
+  });
+
+  </script>
+  <script src="js/jquery.mobile-1.4.2.min.js"></script>
+  <script src="js/parse-1.2.18.min.js"></script>
+  
+  <link rel="apple-touch-icon" href="icon-60.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="icon-76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icon-60@2x.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icon-76@2x.png">
+  
+  <link rel="apple-touch-startup-image" href="startup.png">
+  <link rel="apple-touch-startup-image" sizes="640x960" href="startup.png">
+
+
+  
   <script type="text/javascript">
-		$(document).ready(function(){
-			/*
-			 * Instance CirclePlayer inside jQuery doc ready
-			 *
-			 * CirclePlayer(jPlayerSelector, media, options)
-			 *   jPlayerSelector: String - The css selector of the jPlayer div.
-			 *   media: Object - The media object used in jPlayer("setMedia",media).
-			 *   options: Object - The jPlayer options.
-			 *
-			 * Multiple instances must set the cssSelectorAncestor in the jPlayer options. Defaults to "#cp_container_1" in CirclePlayer.
-			 */
+//<![CDATA[
+$(document).ready(function(){
 
-			var myCirclePlayer = new CirclePlayer("#jquery_jplayer_1",
-			{
-				mp3: "http://85.17.30.50:8064/;stream/1"
-			}, {
-				solution: "html, flash",
-    			swfPath: "js",
-    			supplied: "mp3, oga",
-    			autoPlay: false
-    		});
-    		myCirclePlayer.pause();
+	var stream = {
+		title: "Radio Conquista",
+		mp3: "http://85.17.30.50:8064/;stream/1",
+	},
+	ready = false;
 
-var screen = $.mobile.getScreenHeight();
-var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
-var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
-var content = screen - header - footer - contentCurrent;
-$(".ui-content").height(content);
-var margen = content-250;
-$("#playbutton").css("margin-top",margen+"px");
+	$("#jquery_jplayer_1").jPlayer({
+		ready: function (event) {
+			ready = true;
+			$(this).jPlayer("setMedia", stream);
+		},
+		pause: function() {
+			$(this).jPlayer("clearMedia");
+		},
+		error: function(event) {
+			if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
+				// Setup the media stream again and play it.
+				$(this).jPlayer("setMedia", stream).jPlayer("play");
+			}
+		},
+		swfPath: "js",
+		supplied: "mp3",
+		preload: "none",
+		wmode: "window",
+		keyEnabled: true,
+		backgroundColor: "#F0F0F0",
+		volume: 1
+	});
+	
+	var screen = $.mobile.getScreenHeight();
+	var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
+	var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+	var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
+	var content = screen - header - footer - contentCurrent;
+	$("#pageone_content").height(content);
+	$("#pagethree_content").height(content+footer);
+	var margen = content-250;
+	$("#playbutton").css("margin-top",margen+"px");
+	
+	$('#contenedor').on('touchstart', function(event){});
 
-		});
-		
-$(document).on('pagecreate', '#pagetwo',  function(){		
-  	$("#mdd").attr("src", "http://www.montededios.us/");
-	 var screen = $.mobile.getScreenHeight();
-         var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
-         var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-         var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
-         var content = screen - header - footer - contentCurrent;
-         $(".ui-content").height(content);
+
 });
 
-		</script>
+$(document).on('pagecreate', '#pagetwo',  function(){		
+  	// $("#mdd").attr("src", "http://www.montededios.us/");
+  	$("#contenedor").load("http://montededios.us");
+	 var screen = $.mobile.getScreenHeight();
+     var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
+     var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+     var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
+     var content = screen - header - contentCurrent;
+     $(".ui-content").height(content);
+     $('#mdd').height(content-32);
+});
+
+$(document).on('pagecreate', '#pagethree', function(){
+});
+
+
+//]]>
+</script>
+  
   
 </head>
+
 <body>
 <div data-role="page" id="pageone">
 
-	<div data-role="panel" id="overlayPanel" data-display="overlay" data-position-fixed="true"> 
-	    <a href="#pageone" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">Close panel</a>
+	<div data-role="panel" id="overlayPanel" data-display="reveal" data-position-fixed="true" data-theme="b"> 
+		
+		<ul data-role="listview">
+			<li><a href="https://www.facebook.com/sharer/sharer.php?u=radioconquista.us" target="_blank">Recommend this App!</a></li>
+			<li><a href="#">Rate this App</a></li>
+			<li><a href="#">Feedback</a></li>
+			<li><a href="#">Community</a></li>
+			<li>
+				<div class="fb-like" data-href="http://radioconquista.us" data-layout="button_count" data-action="recommend" data-show-faces="true" data-share="true"></div>
+			</li>
+		</ul>
+				
   	</div> 
   
 	<div data-role="header" data-position="fixed">
 	    <h1>Radio Conquista</h1>
-	    <a href="#overlayPanel" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Open left panel</a>
+	    <a href="#overlayPanel" class="ui-nodisc-icon ui-alt-icon" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Open left panel</a>
 	</div>
    
-   <div data-role="main" class="ui-content">
-   <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+   <div data-role="main" class="ui-content" id="pageone_content">
 
+		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+		
 		<div id="metadata"></div>
 		<div id="playbutton">
-			<div id="audio" style="width:200px; margin:0 auto;">
-				<div id="cp_container_1" class="cp-container">
-					<div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
-						<div class="cp-buffer-1"></div>
-						<div class="cp-buffer-2"></div>
-					</div>
-					<div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
-						<div class="cp-progress-1"></div>
-						<div class="cp-progress-2"></div>
-					</div>
-					<div class="cp-circle-control"></div>
-					<ul class="cp-controls">
-						<li><a class="cp-play" tabindex="1">play</a></li>
-						<li><a class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+
+		<div id="jp_container_1" class="jp-audio-stream">
+			<div class="jp-type-single">
+				<div class="jp-gui jp-interface">
+					<div class="jp-controls-holder">
+					<ul class="jp-controls">
+						<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+						<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
 					</ul>
-				</div> 
+					</div>
+				</div>
+				<div class="jp-no-solution">
+					<span>Update Required</span>
+					To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+				</div>
 			</div>
 		</div>
+		
+		</div>
+		
 	</div>
 
 	<div data-role="footer" data-position="fixed">
 		<div data-role="navbar">
-      		<ul>
-      			<li><a href="#overlayPanel" data-icon="arrow-l">Community</a></li>
-		        <li><a href="#pagetwo" data-icon="home">Monte de Dios</a></li>
+      		<ul id="ul-mdd">
+      			<li><a href="#pagethree" data-icon="custom" id="comm-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Community</a></li>
+		        <li><a href="#pagetwo" data-icon="custom" id="mdd-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Monte de Dios</a></li>
 	      	</ul>
 	    </div>
 	</div>
@@ -117,15 +172,53 @@ $(document).on('pagecreate', '#pagetwo',  function(){
 
 <div data-role="page" id="pagetwo">
 	<div data-role="header" data-position="fixed">
-		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Back</a> 
-		<h1>Radio Conquista</h1>
+		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Home</a> 
+		<h1>Monte de Dios</h1>
 	</div>
-	<div data-role="main" class="ui-content">
-                <div style="width: 100%; height: 100%; overflow: scroll !important;-webkit-overflow-scrolling:touch !important;">
-		  <iframe id="mdd" src="" style="width:98%; height:10000px;"></iframe>
+	<div data-role="main" class="ui-content" id="pagetwo_content">
+                <div id="contenedor" style="width: 100%; height: 100%; overflow: scroll !important;-webkit-overflow-scrolling:touch !important;">
+<!-- Open in InAppBrowser -->
+<p><a href="#" onclick="window.open('http://montededios.us', '_blank', 'location=yes');">_blank</a></p>
+<!-- Open in Mobile Safari -->
+<p><a href="#" onclick="window.open('http://montededios.us', '_system', 'location=yes');">_system</a></p>
+<!-- Open in Same Webview -->
+<p><a href="#" onclick="window.open('http://montededios.us', '_self', 'location=yes');">_self</a></p>
                 </div>
 	</div>
 </div>
 
+<div data-role="page" id="pagethree">
+	<div data-role="header" data-position="fixed">
+		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Home</a>
+		<h1>Community</h1>
+	</div>
+	<div data-role="main" class="ui-content" id="pagethree_content">
+		<div id="signin" class="ui-corner-all">
+			<h2>Sign in</h2>
+			<div class="linea"></div>
+			<p><input name="username" type="text" id="username" placeholder="Email/Username" /></p>
+			<p><input name="password" type="password" id="password" placeholder="Password" /></p>
+			<div class="linea"></div>
+			<p><a href="#" data-role="button" data-icon="user">Sign in</a></p>
+			<div class="linea"></div>
+			<p><a href="#" data-role="button" data-icon="plus">Register a new account</a></p>
+			<p><a href="#" data-role="button" data-icon="alert">I forgot my password</a></p>
+		</div>
+		<script>
+		/*function abrirFacebook(){
+			if ("standalone" in navigator && navigator.standalone) {
+				//aqui funciona pero me manda directo...
+ 				var permissionUrl = "https://m.facebook.com/dialog/oauth?client_id=293143157514503&response_type=code&redirect_uri=" + window.location + "&scope=public_profile,email";
+ 				$('#pagethree_content').load(permissionUrl);
+ 				$( ":mobile-pagecontainer" ).pagecontainer( "load", "confirm.html", { role: "dialog" } );
+				//window.location = permissionUrl;
+			}
+		}*/
+		</script>
+	</div>
+</div>
+
+
 </body>
-</html> 
+
+</html>
