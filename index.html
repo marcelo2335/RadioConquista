@@ -83,7 +83,16 @@ $(document).ready(function(){
 	$("#playbutton").css("margin-top",margen+"px");
 		
 	$("div:jqmData(role='panel')").css('margin-top',  ($("div:jqmData(role='header')").height()));
-
+	
+	$('#signin-submit').click(function(){
+		$.post(
+			"http://institutokerigma.org/pruebas/json.php",
+			{nombre:$('#signin-username').val(),password:$('#signin-password').val()},
+			function(response){alert(response);},
+			'json'
+		);
+	});
+	
 });
 
 
@@ -159,11 +168,11 @@ $(document).ready(function(){
 		<div id="signin" class="ui-corner-all">
 			<h2>Sign in</h2>
 			<div class="linea"></div>
-			<p><input name="username" type="text" id="username" placeholder="Email/Username" /></p>
-			<p><input name="password" type="password" id="password" placeholder="Password" /></p>
+			<p><input name="username" type="text" id="signin-username" placeholder="Email/Username" /></p>
+			<p><input name="password" type="password" id="signin-password" placeholder="Password" /></p>
 			<div class="linea"></div>
-			<p><a href="#" data-role="button" data-icon="user">Sign in</a></p>
-			<div class="linea"></div>
+			<p><a href="#" id="signin-submit" data-role="button" data-icon="user">Sign in</a></p>
+            <div class="linea"></div>
 			<p><a href="#" data-role="button" data-icon="plus">Register a new account</a></p>
 			<p><a href="#" data-role="button" data-icon="alert">I forgot my password</a></p>
 		</div>
