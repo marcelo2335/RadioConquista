@@ -83,7 +83,8 @@ $(document).ready(function(){
 	$("#playbutton").css("margin-top",margen+"px");
 	
 	$('#contenedor').on('touchstart', function(event){});
-
+	
+	$("div:jqmData(role='panel')").css('margin-top',  ($("div:jqmData(role='header')").height()));
 
 });
 
@@ -111,16 +112,12 @@ $(document).on('pagecreate', '#pagethree', function(){
 <body>
 <div data-role="page" id="pageone">
 
-	<div data-role="panel" id="overlayPanel" data-display="reveal" data-position-fixed="true" data-theme="b"> 
+	<div data-role="panel" id="overlayPanel" data-display="overlay" data-position-fixed="true" data-theme="b"> 
 		
 		<ul data-role="listview">
 			<li><a href="https://www.facebook.com/sharer/sharer.php?u=radioconquista.us" target="_blank">Recommend this App!</a></li>
 			<li><a href="#">Rate this App</a></li>
 			<li><a href="#">Feedback</a></li>
-			<li><a href="#">Community</a></li>
-			<li>
-				<div class="fb-like" data-href="http://radioconquista.us" data-layout="button_count" data-action="recommend" data-show-faces="true" data-share="true"></div>
-			</li>
 		</ul>
 				
   	</div> 
