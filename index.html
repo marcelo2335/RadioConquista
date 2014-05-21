@@ -6,36 +6,34 @@
   <meta charset="utf-8">
   <meta name=viewport content="width=device-width, initial-scale=1.0, minimum-scale=0.5 maximum-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
   <link rel="stylesheet" href="pink.flag/m.jplayer.pink.flag.css" type="text/css" />
-  <link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
-  <link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
-  <link rel="stylesheet" href="css/mitema.min.css">
-  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="estilo2.css">
 
   <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
   <script src="js/jquery-1.10.2.min.js"></script>
   <script src="js/jquery.jplayer.min.js"></script>
-  <script>
-  $( document ).bind( "mobileinit", function() {
-    // Make your jQuery Mobile framework configuration changes here!
-	$.support.cors = true;
-	$.mobile.allowCrossDomainPages = true;
-	$.mobile.pushStateEnabled = false;
-  });
-
-  </script>
-  <script src="js/jquery.mobile-1.4.2.min.js"></script>
-  <script src="js/parse-1.2.18.min.js"></script>
   
   <link rel="apple-touch-icon" href="icon-60.png">
   <link rel="apple-touch-icon" sizes="76x76" href="icon-76.png">
   <link rel="apple-touch-icon" sizes="120x120" href="icon-60@2x.png">
   <link rel="apple-touch-icon" sizes="152x152" href="icon-76@2x.png">
   
-  <link rel="apple-touch-startup-image" href="startup.png">
-  <link rel="apple-touch-startup-image" sizes="640x960" href="startup.png">
+<!-- iPhone 5 -->
+<link href="startup-iphone5.png"
+      media="(device-width: 320px) and (device-height: 568px)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+<!-- iPhone, retina -->
+<link href="starup640x960.png"
+      media="(device-width: 320px) and (device-height: 480px)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+<!-- iPhone -->
+<link href="starup320x480.png"
+      media="(device-width: 320px) and (device-height: 480px)
+         and (-webkit-device-pixel-ratio: 1)"
+      rel="apple-touch-startup-image">
 
 
   
@@ -72,30 +70,117 @@ $(document).ready(function(){
 		volume: 1
 	});
 	
-	var screen = $.mobile.getScreenHeight();
-	var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
-	var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-	var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
-	var content = screen - header - footer - contentCurrent;
-	$("#pageone_content").height(content);
-	$("#pagethree_content").height(content+footer);
-	var margen = content-250;
-	$("#playbutton").css("margin-top",margen+"px");
-		
-	$("div:jqmData(role='panel')").css('margin-top',  ($("div:jqmData(role='header')").height()));
+	$('#pageone').css('display','block');
+	document.title = 'Radio Conquista';
 	
-	$('#signin-submit').click(function(){
-		$.post(
-			"http://institutokerigma.org/pruebas/json.php",
-			{nombre:$('#signin-username').val(),password:$('#signin-password').val()},
-			function(response){alert(response);},
-			'json'
-		);
+	$('#community').click(function(event){
+		event.preventDefault();
+		document.title = 'Community';
+		$('#pageone').css('display','none');
+		$('#pagec').css('display','block');
 	});
+	
+	$('#bb1').click(function(event){
+		event.preventDefault();
+		document.title = 'Radio Conquista';
+		$('#pagec').css('display','none');
+		$('#pageone').css('display','block');	
+	});
+	
+	$('#bb2').click(function(event){
+		event.preventDefault();
+		document.title = 'Community';
+		$('#pagem').css('display','none');
+		$('#pagec').css('display','block');	
+	});
+	
+	$('#bb3').click(function(event){
+		event.preventDefault();
+		document.title = 'Community';
+		$('#pager').css('display','none');
+		$('#pagec').css('display','block');
+	});
+	
+	$('#message').click(function(event){
+		event.preventDefault();
+		document.title = 'Send us a Message';
+		$('#pagec').css('display','none');
+		$('#pagem').css('display','block');
+	});
+	
+	$('#ok').click(function(event){
+		event.preventDefault();
+		document.title = 'Community';
+		$('#pager').css('display','none');
+		$('#pagec').css('display','block');
+	});
+	
+	$('#sendit').click(function(event){
+		event.preventDefault();
+		if(validateName()&&validateEmail()&&validateMessage()){
+			alert('Thank you, '+$('#yourname').val()+'!\nWe truly appreciate your communication!');
+			$.ajax({
+				url:"http://institutokerigma.org/pruebas/sendemail.php",
+				type: 'POST',
+				data:{clave:'7c2585fe935e8041133ba89ec996e663814a8a33',nombre:$('#yourname').val(),email:$('#youremail').val(),mensaje:$('#yourmessage').val()},
+				success: function(respuesta){
+					document.title = 'Thank you!';
+					$('#response').html('Thank you, '+$('#yourname').val()+'!');
+					$('#pagem').css('display','none');
+					$('#yourname').val('');
+					$('#youremail').val('');
+					$('#yourmessage').val('');
+					$('#pager').css('display','block');
+				},
+				error: function(xhr,type){
+					document.title = 'Error';
+					$('#response').html('Your message could not be send.');
+					$('#response2').html('Please, try again later.');
+					$('#respuesta').html("<h2>Your message could not be sent.</h2><h2>Please, try again later.</h2><p><a href=\"#\" id=\"ok\" class=\"btn\">Ok</a>");
+					$('#pagem').css('display','none');
+					$('#yourname').val('');
+					$('#youremail').val('');
+					$('#yourmessage').val('');
+					$('#pager').css('display','block');
+				}
+			});
+		}else{
+			return false;
+		}
+	});
+	
+	$('.content').css('top',$('.header').height());
+	
 	
 });
 
 
+function validateName(){
+	var x=$('#yourname').val();
+	if (x==null || x==""){
+		alert("Your name must be filled out");
+		$('#yourname').css('border-color','#FF0000');
+		return false;
+	}else{$('#yourname').css('border-color','#f0f0f0'); return true;}
+}
+function validateEmail(){
+	var x=$('#youremail').val();
+	var atpos=x.indexOf("@");
+	var dotpos=x.lastIndexOf(".");
+	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
+		alert("Not a valid e-mail address");
+		$('#youremail').css('border-color','#FF0000');
+		return false;
+	}else{$('#youremail').css('border-color','#f0f0f0'); return true;}
+}
+function validateMessage(){
+	var x=$('#yourmessage').val();
+	if (x==null || x==""){
+		alert("Your message is empty");
+		$('#yourmessage').css('border-color','#FF0000');
+		return false;
+	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
+}
 //]]>
 </script>
   
@@ -103,24 +188,15 @@ $(document).ready(function(){
 </head>
 
 <body>
-<div data-role="page" id="pageone">
 
-	<div data-role="panel" id="overlayPanel" data-display="overlay" data-position-fixed="true" data-theme="b"> 
-		
-		<ul data-role="listview">
-			<li><a href="https://www.facebook.com/sharer/sharer.php?u=radioconquista.us" target="_blank">Recommend this App!</a></li>
-			<li><a href="#">Rate this App</a></li>
-			<li><a href="#">Feedback</a></li>
-		</ul>
-				
-  	</div> 
+
+<div class="page" id="pageone">
   
-	<div data-role="header" data-position="fixed">
+	<div class="header">
 	    <h1>Radio Conquista</h1>
-	    <a href="#overlayPanel" id="abre_panel" class="panel-btn">Open left panel</a>
 	</div>
    
-   <div data-role="main" class="ui-content" id="pageone_content">
+   <div class="content">
 
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		
@@ -145,40 +221,59 @@ $(document).ready(function(){
 		</div>
 		
 		</div>
+        
+        <div class="footer">
+		<div data-role="navbar">
+      			<a href="#" id="community" >Community</a>
+		        <a href="#" id="mdd" onclick="window.open('http://montededios.us', '_blank', 'location=yes');">Monte de Dios</a>
+	    </div>
+	</div>
 		
 	</div>
 
-	<div data-role="footer" data-position="fixed">
-		<div data-role="navbar">
-      		<ul id="ul-mdd">
-      			<li><a href="#pagethree" data-icon="custom" id="comm-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Community</a></li>
-		        <li><a href="#pagetwo" data-icon="custom" id="mdd-icon" class="ui-nodisc-icon" data-iconpos="notext" data-shadow="false" data-iconshadow="false" onclick="window.open('http://montededios.us', '_blank', 'location=yes');">Monte de Dios</a></li>
-	      	</ul>
-	    </div>
-	</div>
-	
 </div> 
 
-<div data-role="page" id="pagethree">
-	<div data-role="header" data-position="fixed">
-		<a href="#pageone" data-role="button" data-icon="carat-l" data-iconpos="left">Home</a>
+
+<div class="page" id="pagec">
+	<div class="header">
+        <div id="bb1" class="bb"></div>
 		<h1>Community</h1>
 	</div>
-	<div data-role="main" class="ui-content" id="pagethree_content">
-		<div id="signin" class="ui-corner-all">
-			<h2>Sign in</h2>
-			<div class="linea"></div>
-			<p><input name="username" type="text" id="signin-username" placeholder="Email/Username" /></p>
-			<p><input name="password" type="password" id="signin-password" placeholder="Password" /></p>
-			<div class="linea"></div>
-			<p><a href="#" id="signin-submit" data-role="button" data-icon="user">Sign in</a></p>
-            <div class="linea"></div>
-			<p><a href="#" data-role="button" data-icon="plus">Register a new account</a></p>
-			<p><a href="#" data-role="button" data-icon="alert">I forgot my password</a></p>
+	<div class="content">
+		<div class="signin">
+			<p><a href="#" class="btn share"  onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=radioconquista.us', '_blank', 'location=yes');">Share this App!</a></p>
+			<p><a href="#" id="message" class="btn feedback">Send us a Message</a></p>
 		</div>
 	</div>
 </div>
 
+<div class="page" id="pagem">
+	<div class="header">
+        <div id="bb2" class="bb"></div>
+		<h1>Send us a Message</h1>
+	</div>
+	<div class="content">
+		<div class="signin">
+        	<p><input type="text" name="yourname" placeholder="Your name" id="yourname" /></p>
+            <p><input type="text" name="youremail" placeholder="Your email" id="youremail" /></p>
+            <p><textarea name="yourmessage" id="yourmessage" cols="" rows="4" style="width:97%; resize:none;"></textarea></p>
+            <p><a href="#" id="sendit" class="btn sendit">Send your message</a></p>
+		</div>
+	</div>
+</div>
+
+<div class="page" id="pager">
+	<div class="header">
+        <div id="bb3" class="bb"></div>
+		<h1>Thank you!</h1>
+	</div>
+	<div class="content">
+		<div class="signin" id="respuesta">
+        	<h2 id="response"></h2>
+            <h2 id="response2">We truly appreciate your communication!</h2>
+		</div>
+	</div>
+</div>
 
 </body>
 
