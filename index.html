@@ -250,16 +250,14 @@ function validateMessage(){
 }
 
 
-//document.addEventListener('DOMContentLoaded', onDeviceReady, false);
-
 function onDeviceReady() {
-	alert("hola");
-	alert(device.version);
-    if (parseFloat(device.version) >= 7.0) {
-          document.getElementById("header").style.paddingTop = "20px";
-    }
+	alert("ready");
+if (parseFloat(window.device.version) >= 7.0) {
+document.body.style.marginTop = "20px";
+// OR do whatever layout you need here, to expand a navigation bar etc
 }
-
+}
+ 
 document.addEventListener('deviceready', onDeviceReady, false);
 
 
