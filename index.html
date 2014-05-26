@@ -251,7 +251,7 @@ function validateMessage(){
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
-	alert("ready");
+	alert(window.device.version);
     if (parseFloat(window.device.version) >= 7.0) {
 		alert("7");
           document.getElementById("header").style.paddingTop = "20px";
