@@ -214,6 +214,9 @@ $(document).ready(function(){
 	$('#pageone').css('left','0');
 	$('#pageone').css('display','block');
 	
+	document.addEventListener('deviceready', onDeviceReady, false);
+
+	
 });
 
 
@@ -253,7 +256,6 @@ function onDeviceReady() {
     }
 }
 
-document.addEventListener('deviceready', onDeviceReady, false);
 
 
 //]]>
