@@ -23,9 +23,7 @@
     -->
     <access origin="http://montededios.us" subdomains="true" />
     <access origin="http://institutokerigma.org" subdomains="true" />
-	
-	<feature name="http://api.phonegap.com/1.0/device" />
-    
+	  
     <preference name="orientation" value="portrait" />
     
     <gap:plugin name="org.li8.inappbrowser" version="0.1" />
