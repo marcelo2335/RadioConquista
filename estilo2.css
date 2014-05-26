@@ -10,21 +10,40 @@ html, body{
 	font-size: 1em;
 	line-height: 1.3;
 	font-family: sans-serif /*{global-font-family}*/;
+	-webkit-user-select: none;
+    -webkit-touch-callout: none;
+	overflow:hidden;
+}
+a{
+	color:rgb(21, 125, 251);
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent; /* For some Androids */
+}
+a.bb:active{
+	-webkit-transform:scale3d(0.9, 0.9, 1);
 }
 input, p{padding:0px; margin:0px; display:block;}
-h1{padding:0px; margin:0px; display:block; text-align:center; font-size:1em; line-height:48px;}
+h1{padding:0px; margin:0px; display:block;
+	text-align:center; font-size:1em;
+	line-height:44px;
+	font-family: -apple-system-font;
+	font-weight:bold;
+}
+h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-system-font; font-weight:bold;}
 .page{
 	height:100%; width:100%;
 	position:absolute;
-	top:0; left:0; bottom:0; right:0;
+	top:0; left:100%; bottom:0; right:0;
 	background-color:#F0F0F0;
 	display:none;
+	-webkit-transform: translate3d(0,0,0);
 }
 .header{
 	position:absolute;
 	top:0; left:0; right:0;
 	width:100%;
-	height:10%;
+	height:44px;
 	background-color:#e9e9e9;
 	border-bottom:1px solid #ddd;
 }
@@ -45,7 +64,9 @@ h1{padding:0px; margin:0px; display:block; text-align:center; font-size:1em; lin
 	background-size:auto 90%;
 	background-position:center center;
 	color:#FFFFFF;
-	text-indent:-9999px;
+	text-indent:100%;
+	white-space: nowrap;
+	overflow: hidden;
 }
 .footer #mdd{
 	width:50%; height:100%;
@@ -56,7 +77,9 @@ h1{padding:0px; margin:0px; display:block; text-align:center; font-size:1em; lin
 	background-size:auto 90%;
 	background-position:center center;
 	color:#FFFFFF;
-	text-indent:-9999px;
+	text-indent:100%;
+	white-space: nowrap;
+	overflow: hidden;
 }
 .content{
 	width:100%;
@@ -77,12 +100,17 @@ h1{padding:0px; margin:0px; display:block; text-align:center; font-size:1em; lin
 	top:10%;
 }
 .bb{
-	height:18px; width:18px; position:absolute; top:14px; left:14px;
-	border-bottom:2px solid #000;
-	border-left:2px solid #000;
-	transform:rotate(45deg);
-	-webkit-transform:rotate(45deg);
+	position:absolute;
+	left:0; bottom:0;
+	height:100%;
+	line-height:44px;
+	/*border-bottom:2px solid #000;
+	border-left:2px solid #000;*/
 	cursor:pointer;
+	z-index:1;
+	background:url(res/images/back-25b.png) no-repeat center left;
+	padding:0px 25px;
+	text-decoration:none;
 }
 .signin{
 	margin:10px auto;
@@ -145,9 +173,78 @@ h1{padding:0px; margin:0px; display:block; text-align:center; font-size:1em; lin
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
 }
-.inactivo, .inactivo:hover{
-	background:#999;
+
+
+#pagem input{
+	display:inline;
+	border:none;
+	font-size:18px;
+	-webkit-border-radius: 0;
+	width:98%;
 }
-.signin .checkable{width:85%;}
-.signin .check{width:25px; height:25px; background-image:url(res/images/checkmark-25.png);
-position:absolute; top:8px; right:10px; text-indent:-9999px; overflow:hidden;}
+
+#pagem textarea{
+	font-size:18px;
+	-webkit-border-radius: 0;
+}
+
+#pagem p{
+	border-bottom:1px solid rgb(200, 199, 204); height:44px; line-height:44px; color:rgb(111, 111, 116);
+	margin-left:10px;
+}
+
+.in{
+	-webkit-animation:pagin 0.2s cubic-bezier(0.23,1,0.32,1);
+	-webkit-animation-fill-mode:forwards;
+}
+
+.out{
+	-webkit-animation:pagout 0.2s cubic-bezier(0.23,1,0.32,1);
+	-webkit-animation-fill-mode:forwards;
+	display:none;
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes pagin {
+	from {left:100%;}
+	to {left:0;}
+}
+@-webkit-keyframes pagout {
+	from {left:0; opacity:1;}
+	to {left:-20%; opacity:0.2;}
+}
+
+#modal{
+	display:none;
+	position:absolute;
+	top:0; left:0;
+	height:100%;
+	width:100%;
+	background:#333;
+	opacity:0.8;
+	z-index:2;
+}
+#cuadro p{
+	color:#FFF;
+}
+#cuadro{
+	width:80%;
+	position:absolute;
+	top:0;
+	background-color:#c60f13;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	color:#FFFFFF;
+	padding:15px;
+	margin:20px auto;
+	z-index:3;
+	display:none;
+	left:10%;
+	box-sizing:border-box;
+}
+#cuadro #avisos{
+	background-image:url(res/images/ic_action_warning.png);
+	background-repeat:no-repeat;
+	background-position:0px center;
+	height:40px;
+	padding:0px 0px 0px 40px;
+}

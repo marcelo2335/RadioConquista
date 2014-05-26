@@ -23,10 +23,13 @@
     -->
     <access origin="http://montededios.us" subdomains="true" />
     <access origin="http://institutokerigma.org" subdomains="true" />
+	
+	<feature name="http://api.phonegap.com/1.0/device" />
     
     <preference name="orientation" value="portrait" />
     
     <gap:plugin name="org.li8.inappbrowser" version="0.1" />
+	<gap:plugin name="org.apache.cordova.media" version="0.2.8" />
     
     <!-- iPhone / iPod Touch  -->
 <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
@@ -53,5 +56,16 @@
 
 <gap:splash src="starup320x480.png" width="320" height="480" />
 <gap:splash src="starup640x960.png" width="640" height="960" />
+
+<gap:config-file platform="ios" parent="UIBackgroundModes" overwrite="true">
+    <array>
+        <string>audio</string>
+    </array>
+</gap:config-file>
+
+<feature name="Media">
+    <param name="ios-package" value="CDVSound" />
+</feature>
+
 
 </widget>

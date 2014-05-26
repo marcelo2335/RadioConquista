@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name=viewport content="width=device-width, initial-scale=1.0, minimum-scale=0.5 maximum-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
   <link rel="stylesheet" href="pink.flag/m.jplayer.pink.flag.css" type="text/css" />
   <link rel="stylesheet" href="estilo2.css">
@@ -40,6 +41,24 @@
   <script type="text/javascript">
 //<![CDATA[
 $(document).ready(function(){
+	
+	$.event.special.tap = {
+  setup: function() {
+    var self = this,
+      $self = $(self);
+
+    $self.on('touchstart', function(startEvent) {
+      var target = startEvent.target;
+
+      $self.one('touchend', function(endEvent) {
+        if (target == endEvent.target) {
+          $.event.simulate('tap', self, endEvent);
+        }
+      });
+    });
+  }
+};
+
 
 	var stream = {
 		title: "Radio Conquista",
@@ -70,14 +89,20 @@ $(document).ready(function(){
 		volume: 1
 	});
 	
-	$('#pageone').css('display','block');
 	document.title = 'Radio Conquista';
 	
 	$('#community').click(function(event){
 		event.preventDefault();
 		document.title = 'Community';
-		$('#pageone').css('display','none');
 		$('#pagec').css('display','block');
+		$('#pageone').addClass('out');
+		$('#pagec').addClass('in');
+		setTimeout(function() {
+        	$('#pageone').css('display','none');
+			$('#pageone').removeClass('out');
+			$('#pagec').css('left','0');
+			$('#pagec').removeClass('in');
+    	}, 300);
 	});
 	
 	$('#bb1').click(function(event){
@@ -90,6 +115,9 @@ $(document).ready(function(){
 	$('#bb2').click(function(event){
 		event.preventDefault();
 		document.title = 'Community';
+		$('#yourname').val('');
+		$('#youremail').val('');
+		$('#yourmessage').val('');
 		$('#pagem').css('display','none');
 		$('#pagec').css('display','block');	
 	});
@@ -103,9 +131,22 @@ $(document).ready(function(){
 	
 	$('#message').click(function(event){
 		event.preventDefault();
-		document.title = 'Send us a Message';
-		$('#pagec').css('display','none');
+		document.title = 'Send us a Message';	
 		$('#pagem').css('display','block');
+		$('#pagec').addClass('out');
+		$('#pagem').addClass('in');
+		setTimeout(function() {
+        	$('#pagec').css('display','none');
+			$('#pagec').removeClass('out');
+			$('#pagem').css('left','0');
+			$('#pagem').removeClass('in');
+			fireclickToFocus();
+    	}, 300);
+	});
+	
+	$('#clicktofocus').click(function(event){
+		event.preventDefault();
+		$('#yourname').focus();
 	});
 	
 	$('#ok').click(function(event){
@@ -115,10 +156,16 @@ $(document).ready(function(){
 		$('#pagec').css('display','block');
 	});
 	
+	$('#cerrarModal').click(function(event){
+		event.preventDefault();
+		$('#modal').css('display','none');
+		$('#cuadro').css('display','none');
+		$('#avisos').html("");
+	});
+	
 	$('#sendit').click(function(event){
 		event.preventDefault();
 		if(validateName()&&validateEmail()&&validateMessage()){
-			alert('Thank you, '+$('#yourname').val()+'!\nWe truly appreciate your communication!');
 			$.ajax({
 				url:"http://institutokerigma.org/pruebas/sendemail.php",
 				type: 'POST',
@@ -126,11 +173,22 @@ $(document).ready(function(){
 				success: function(respuesta){
 					document.title = 'Thank you!';
 					$('#response').html('Thank you, '+$('#yourname').val()+'!');
-					$('#pagem').css('display','none');
+					//$('#pagem').css('display','none');
 					$('#yourname').val('');
 					$('#youremail').val('');
 					$('#yourmessage').val('');
+					//$('#pager').css('display','block');
+					
 					$('#pager').css('display','block');
+					$('#pagem').addClass('out');
+					$('#pager').addClass('in');
+					setTimeout(function() {
+			        	$('#pagem').css('display','none');
+						$('#pagem').removeClass('out');
+						$('#pager').css('left','0');
+						$('#pager').removeClass('in');
+			    	}, 300);
+					
 				},
 				error: function(xhr,type){
 					document.title = 'Error';
@@ -145,12 +203,16 @@ $(document).ready(function(){
 				}
 			});
 		}else{
+			$('#modal').css('display','block');
+			$('#cuadro').css('display','block');
 			return false;
 		}
 	});
 	
 	$('.content').css('top',$('.header').height());
 	
+	$('#pageone').css('left','0');
+	$('#pageone').css('display','block');
 	
 });
 
@@ -158,7 +220,8 @@ $(document).ready(function(){
 function validateName(){
 	var x=$('#yourname').val();
 	if (x==null || x==""){
-		alert("Your name must be filled out");
+		//alert("Your name must be filled out");
+		$('#avisos').append("<p>Your name must be filled out.</p>");
 		$('#yourname').css('border-color','#FF0000');
 		return false;
 	}else{$('#yourname').css('border-color','#f0f0f0'); return true;}
@@ -168,7 +231,8 @@ function validateEmail(){
 	var atpos=x.indexOf("@");
 	var dotpos=x.lastIndexOf(".");
 	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
-		alert("Not a valid e-mail address");
+		//alert("Not a valid e-mail address");
+		$('#avisos').append("<p>Not a valid e-mail address.</p>");
 		$('#youremail').css('border-color','#FF0000');
 		return false;
 	}else{$('#youremail').css('border-color','#f0f0f0'); return true;}
@@ -176,11 +240,25 @@ function validateEmail(){
 function validateMessage(){
 	var x=$('#yourmessage').val();
 	if (x==null || x==""){
-		alert("Your message is empty");
+		$('#avisos').append("<p>Your message is empty.</p>");
+		//alert("Your message is empty.");
 		$('#yourmessage').css('border-color','#FF0000');
 		return false;
 	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
 }
+
+function onDeviceReady() {
+    if (parseFloat(window.device.version) >= 7.0) {
+          document.body.style.marginTop = "20px";
+    }
+}
+
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function fireclickToFocus(){
+	$('#clicktofocus').trigger("click");
+}
+
 //]]>
 </script>
   
@@ -235,9 +313,9 @@ function validateMessage(){
 
 
 <div class="page" id="pagec">
-	<div class="header">
-        <div id="bb1" class="bb"></div>
+	<div class="header">       
 		<h1>Community</h1>
+        <a href="#" id="bb1" class="bb" ontouchstart="return true;">Back</a>
 	</div>
 	<div class="content">
 		<div class="signin">
@@ -248,30 +326,34 @@ function validateMessage(){
 </div>
 
 <div class="page" id="pagem">
-	<div class="header">
-        <div id="bb2" class="bb"></div>
-		<h1>Send us a Message</h1>
+	<div id="modal">
+    </div>
+	<div id="cuadro">
+		<div id="avisos"></div>
+    	<a href="#" class="btn" id="cerrarModal">Ok</a>
 	</div>
-	<div class="content">
-		<div class="signin">
-        	<p><input type="text" name="yourname" placeholder="Your name" id="yourname" /></p>
-            <p><input type="text" name="youremail" placeholder="Your email" id="youremail" /></p>
-            <p><textarea name="yourmessage" id="yourmessage" cols="" rows="4" style="width:97%; resize:none;"></textarea></p>
-            <p><a href="#" id="sendit" class="btn sendit">Send your message</a></p>
-		</div>
+	
+	<div class="header">
+		<h1>Send us a Message</h1>
+        <a href="#" id="bb2" class="bb" ontouchstart="return true;" style="background-image:none; padding:0px 5px;">Cancel</a>
+        <a href="#" id="sendit" class="bb" ontouchstart="return true;" style="left:auto; right:0; background-image:none; padding:0px 5px;">Send</a>
+	</div>
+	<div class="content" style="background-color:#FFF;">
+		<p><input type="text" name="yourname" placeholder="Your name" id="yourname" style="border:none;" /></p>
+		<p><input type="email" name="youremail" placeholder="Your email" id="youremail" style="border:none" /></p>
+		<p style="border-bottom:none;"><textarea name="yourmessage" id="yourmessage" placeholder="Your message..." cols="" rows="4" style="width:97%; resize:none; border:none;"></textarea></p>
+        <div id="clicktofocus" style="display:none"></div>
 	</div>
 </div>
 
 <div class="page" id="pager">
 	<div class="header">
-        <div id="bb3" class="bb"></div>
 		<h1>Thank you!</h1>
+        <a href="#" id="bb3" class="bb" ontouchstart="return true;" style="left:auto; right:0; background-image:none; padding:0px 5px;">Ok</a>
 	</div>
-	<div class="content">
-		<div class="signin" id="respuesta">
-        	<h2 id="response"></h2>
-            <h2 id="response2">We truly appreciate your communication!</h2>
-		</div>
+	<div class="content" style="background-color:#FFF; padding:15px;">
+        	<span id="response"></span><br />
+            <span id="response2">We truly appreciate your communication!</span>
 	</div>
 </div>
 
