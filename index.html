@@ -41,16 +41,6 @@
   <script type="text/javascript">
 //<![CDATA[
 
-function onDeviceReady() {
-    if (parseFloat(window.device.version) >= 7.0) {
-          document.body.style.marginTop = "20px";
-    }
-}
-  
-document.addEventListener('deviceready', onDeviceReady, false);
-
-
-
 $(document).ready(function(){
 	
 	$.event.special.tap = {
@@ -151,7 +141,6 @@ $(document).ready(function(){
 			$('#pagec').removeClass('out');
 			$('#pagem').css('left','0');
 			$('#pagem').removeClass('in');
-			fireclickToFocus();
     	}, 300);
 	});
 	
@@ -260,15 +249,12 @@ function validateMessage(){
 
 function onDeviceReady() {
     if (parseFloat(window.device.version) >= 7.0) {
-          document.body.style.marginTop = "20px";
+          document.getElementById("header").style.paddingTop = "20px";
     }
 }
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
-function fireclickToFocus(){
-	$('#clicktofocus').trigger("click");
-}
 
 //]]>
 </script>
@@ -281,7 +267,7 @@ function fireclickToFocus(){
 
 <div class="page" id="pageone">
   
-	<div class="header">
+	<div class="header" id="header">
 	    <h1>Radio Conquista</h1>
 	</div>
    
