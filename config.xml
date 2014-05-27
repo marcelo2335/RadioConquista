@@ -31,11 +31,11 @@
 
     
     <gap:plugin name="org.li8.inappbrowser" version="0.1" />
-	<gap:plugin name="org.apache.cordova.media">
-		<param name="Media" value="CDVSound" /> 
-	</gap:plugin>
-	<gap:plugin name="org.apache.cordova.device" />
-	<gap:plugin name="org.apache.cordova.network-information" />
+
+	<gap:plugin name="org.apache.cordova.core.media" />
+	<gap:plugin name="org.apache.cordova.core.device" /> 
+	
+	
     
     <!-- iPhone / iPod Touch  -->
 <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
