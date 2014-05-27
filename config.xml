@@ -26,14 +26,16 @@
 	  
     <preference name="orientation" value="portrait" />
 	<preference name="MediaPlaybackRequiresUserAction" value="true"/>
-	<preference name="KeyboardDisplayRequiresUserAction" value="false"/>
-	<preference name="AllowInlineMediaPlayback" value="true"/>
+<preference name="KeyboardDisplayRequiresUserAction" value="false"/>
+<preference name="AllowInlineMediaPlayback" value="true"/>
 
     
     <gap:plugin name="org.li8.inappbrowser" version="0.1" />
 
-	<feature name="http://api.phonegap.com/1.0/media"/> 
-	<feature name="http://api.phonegap.com/1.0/device"/> 
+	<gap:plugin name="org.apache.cordova.media" />
+	<gap:plugin name="org.apache.cordova.device" /> 
+	
+	
     
     <!-- iPhone / iPod Touch  -->
 <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
