@@ -38,6 +38,7 @@ h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-
 	background-color:#F0F0F0;
 	display:block;
 	-webkit-transform: translate3d(0,0,0);
+	display:none;
 }
 .header{
 	position:absolute;

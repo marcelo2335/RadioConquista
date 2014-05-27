@@ -157,6 +157,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#pageone').css('display','block');
 	$('#pageone').css('left','0');
 	checkConnection();
 });
@@ -217,6 +218,9 @@ function checkConnection() {
     states[Connection.NONE]     = 'No network connection';
 
     alert('Connection type: ' + states[networkState]);
+	$('#modal').css('display','block');
+	$('#cuadro').css('display','block');
+	$('#avisos').append(states[networkState]);
 }
 
 //]]>
@@ -286,13 +290,6 @@ function checkConnection() {
 </div>
 
 <div class="page" id="pagem">
-	<div id="modal">
-    </div>
-	<div id="cuadro">
-		<div id="avisos"></div>
-    	<a href="#" class="btn" id="cerrarModal">Ok</a>
-	</div>
-	
 	<div class="header">
 		<h1>Send us a Message</h1>
         <a href="#" id="bb2" class="bb" ontouchstart="return true;" style="background-image:none; padding:0px 5px;">Cancel</a>
@@ -315,6 +312,10 @@ function checkConnection() {
             <span id="response2">We truly appreciate your communication!</span>
 	</div>
 </div>
+
+
+<div id="modal"></div>
+<div id="cuadro"><div id="avisos"></div><a href="#" class="btn" id="cerrarModal">Ok</a></div>
 
 </body>
 
