@@ -43,6 +43,13 @@
 
 $(document).ready(function(){
 	
+	
+	/***************************************************************************************************/
+	
+	var myMedia = new Media("http://85.17.30.50:8064/;stream/1");
+	
+	/***************************************************************************************************/
+	
 	$.event.special.tap = {
 		setup: function() {
 	    	var self = this,
@@ -204,6 +211,23 @@ function validateMessage(){
 	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
 }
 
+function playAudio() {
+  if (!playing) {
+    myMedia.play(); 
+    document.getElementById('play').src = "images/pause.png";
+    playing = true; 
+  } else {
+    myMedia.stop();
+    document.getElementById('play').src = "images/play.png";    
+    playing = false; 
+  }
+}
+
+function stopAudio() {
+  myMedia.stop();
+  playing = false;
+  document.getElementById('play').src = "images/play.png";    
+}
 
 //]]>
 </script>
@@ -221,6 +245,10 @@ function validateMessage(){
 	</div>
    
    <div class="content">
+   
+   	<a href="#" onclick="playAudio()"><img id="play" src="res/images/play.png" /></a>
+    <a href="#" onclick="stopAudio()"><img id="stop" src="res/images/pause.png" /></a>
+    <p id="audio_position">0.000 sec</p>
 
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		
