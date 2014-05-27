@@ -34,9 +34,9 @@ h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-
 .page{
 	height:100%; width:100%;
 	position:absolute;
-	top:0; left:100%; bottom:0; right:0;
+	top:0; left:100%; bottom:0;
 	background-color:#F0F0F0;
-	display:none;
+	display:block;
 	-webkit-transform: translate3d(0,0,0);
 }
 .header{
@@ -46,6 +46,7 @@ h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-
 	height:44px;
 	background-color:#e9e9e9;
 	border-bottom:1px solid #ddd;
+	padding-top:20px;
 }
 .footer{
 	position:absolute;
@@ -84,6 +85,7 @@ h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-
 .content{
 	width:100%;
 	position:absolute;
+	top:64px;
 	bottom:0;
 	left:0;
 }
@@ -93,19 +95,12 @@ h2{padding:0px; margin::0px; display:block; font-size:0.9em; font-family:-apple-
 	margin:0 auto;
 	width:100%;
 }
-.panel{
-	display:none;
-	position:absolute;
-	left:0;
-	top:10%;
-}
+
 .bb{
 	position:absolute;
 	left:0; bottom:0;
-	height:100%;
+	height:44px;
 	line-height:44px;
-	/*border-bottom:2px solid #000;
-	border-left:2px solid #000;*/
 	cursor:pointer;
 	z-index:1;
 	background:url(res/images/back-25b.png) no-repeat center left;

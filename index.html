@@ -44,21 +44,19 @@
 $(document).ready(function(){
 	
 	$.event.special.tap = {
-  setup: function() {
-    var self = this,
-      $self = $(self);
-
-    $self.on('touchstart', function(startEvent) {
-      var target = startEvent.target;
-
-      $self.one('touchend', function(endEvent) {
-        if (target == endEvent.target) {
-          $.event.simulate('tap', self, endEvent);
-        }
-      });
-    });
-  }
-};
+		setup: function() {
+	    	var self = this,
+	    	$self = $(self);
+		    $self.on('touchstart', function(startEvent) {
+				var target = startEvent.target;
+				$self.one('touchend', function(endEvent) {
+					if (target == endEvent.target) {
+						$.event.simulate('tap', self, endEvent);
+					}
+      			});
+    		});
+  		}
+	};
 
 
 	var stream = {
@@ -93,67 +91,31 @@ $(document).ready(function(){
 	document.title = 'Radio Conquista';
 	
 	$('#community').click(function(event){
-		event.preventDefault();
-		document.title = 'Community';
-		$('#pagec').css('display','block');
-		$('#pageone').addClass('out');
-		$('#pagec').addClass('in');
-		setTimeout(function() {
-        	$('#pageone').css('display','none');
-			$('#pageone').removeClass('out');
-			$('#pagec').css('left','0');
-			$('#pagec').removeClass('in');
-    	}, 300);
+		event.preventDefault();	
+		slideIn("#pageone","#pagec","Community");
 	});
 	
 	$('#bb1').click(function(event){
 		event.preventDefault();
-		document.title = 'Radio Conquista';
-		$('#pagec').css('display','none');
-		$('#pageone').css('display','block');	
+		slideBack("#pagec","#pageone","Radio Conquista");
 	});
 	
 	$('#bb2').click(function(event){
 		event.preventDefault();
-		document.title = 'Community';
+		slideBack("#pagem","#pagec","Community");
 		$('#yourname').val('');
 		$('#youremail').val('');
-		$('#yourmessage').val('');
-		$('#pagem').css('display','none');
-		$('#pagec').css('display','block');	
+		$('#yourmessage').val('');	
 	});
 	
 	$('#bb3').click(function(event){
 		event.preventDefault();
-		document.title = 'Community';
-		$('#pager').css('display','none');
-		$('#pagec').css('display','block');
+		slideBack("#pager","#pagec","Community");
 	});
 	
 	$('#message').click(function(event){
 		event.preventDefault();
-		document.title = 'Send us a Message';	
-		$('#pagem').css('display','block');
-		$('#pagec').addClass('out');
-		$('#pagem').addClass('in');
-		setTimeout(function() {
-        	$('#pagec').css('display','none');
-			$('#pagec').removeClass('out');
-			$('#pagem').css('left','0');
-			$('#pagem').removeClass('in');
-    	}, 300);
-	});
-	
-	$('#clicktofocus').click(function(event){
-		event.preventDefault();
-		$('#yourname').focus();
-	});
-	
-	$('#ok').click(function(event){
-		event.preventDefault();
-		document.title = 'Community';
-		$('#pager').css('display','none');
-		$('#pagec').css('display','block');
+		slideIn("#pagec","#pagem","Send us a Message");
 	});
 	
 	$('#cerrarModal').click(function(event){
@@ -171,35 +133,21 @@ $(document).ready(function(){
 				type: 'POST',
 				data:{clave:'7c2585fe935e8041133ba89ec996e663814a8a33',nombre:$('#yourname').val(),email:$('#youremail').val(),mensaje:$('#yourmessage').val()},
 				success: function(respuesta){
-					document.title = 'Thank you!';
 					$('#response').html('Thank you, '+$('#yourname').val()+'!');
-					//$('#pagem').css('display','none');
 					$('#yourname').val('');
 					$('#youremail').val('');
 					$('#yourmessage').val('');
-					//$('#pager').css('display','block');
-					
-					$('#pager').css('display','block');
-					$('#pagem').addClass('out');
-					$('#pager').addClass('in');
-					setTimeout(function() {
-			        	$('#pagem').css('display','none');
-						$('#pagem').removeClass('out');
-						$('#pager').css('left','0');
-						$('#pager').removeClass('in');
-			    	}, 300);
+					slideIn("#pagem","#pager","Thank you!");
 					
 				},
 				error: function(xhr,type){
 					document.title = 'Error';
 					$('#response').html('Your message could not be send.');
 					$('#response2').html('Please, try again later.');
-					$('#respuesta').html("<h2>Your message could not be sent.</h2><h2>Please, try again later.</h2><p><a href=\"#\" id=\"ok\" class=\"btn\">Ok</a>");
-					$('#pagem').css('display','none');
 					$('#yourname').val('');
 					$('#youremail').val('');
 					$('#yourmessage').val('');
-					$('#pager').css('display','block');
+					slideIn("#pagem","#pager","Sorry");
 				}
 			});
 		}else{
@@ -209,14 +157,21 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.content').css('top',$('.header').height());
-	
 	$('#pageone').css('left','0');
-	$('#pageone').css('display','block');
-
-	
-	
+	checkConnection();
 });
+
+function slideIn(outs, ins, titulo){
+	$(outs).animate({left:'-20%', opacity:'0.2'},250,function(){$(outs).css('display','none');});
+	$(ins).css('display','block');
+	$(ins).animate( {left:'0'},250,function(){ document.title = titulo; } );
+}
+
+function slideBack(outs, ins, titulo){
+	$(outs).animate({left:'100%'},250,function(){$(outs).css('display','none');});
+	$(ins).css('display','block');
+	$(ins).animate( {left:'0', opacity:'1'},250,function(){ document.title = titulo; } );
+}
 
 
 function validateName(){
@@ -248,18 +203,21 @@ function validateMessage(){
 		return false;
 	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
 }
+function checkConnection() {
+    var networkState = navigator.connection.type;
 
+    var states = {};
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
 
-function onDeviceReady() {
-	alert("ready");
-if (parseFloat(window.device.version) >= 7.0) {
-document.body.style.marginTop = "20px";
-// OR do whatever layout you need here, to expand a navigation bar etc
+    alert('Connection type: ' + states[networkState]);
 }
-}
- 
-document.addEventListener('deviceready', onDeviceReady, false);
-
 
 //]]>
 </script>
@@ -344,7 +302,6 @@ document.addEventListener('deviceready', onDeviceReady, false);
 		<p><input type="text" name="yourname" placeholder="Your name" id="yourname" style="border:none;" /></p>
 		<p><input type="email" name="youremail" placeholder="Your email" id="youremail" style="border:none" /></p>
 		<p style="border-bottom:none;"><textarea name="yourmessage" id="yourmessage" placeholder="Your message..." cols="" rows="4" style="width:97%; resize:none; border:none;"></textarea></p>
-        <div id="clicktofocus" style="display:none"></div>
 	</div>
 </div>
 
