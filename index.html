@@ -228,14 +228,21 @@ function stopAudio() {
   playing = false;
   document.getElementById('play').src = "images/play.png";    
 }
-
+function onBodyLoad(){
+	document.addEventListener("deviceready", onDeviceReady, false);
+}
+function onDeviceReady(){
+	$('#modal').css('display','block');
+	$('#cuadro').css('display','block');
+	$('#avisos').append("<p>Listo.</p>");
+}
 //]]>
 </script>
   
   
 </head>
 
-<body>
+<body onLoad="onBodyLoad();">
 
 
 <div class="page" id="pageone">
