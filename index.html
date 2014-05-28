@@ -219,11 +219,13 @@ function playAudio() {
     document.getElementById('play').src = "res/images/pause.png";
     playing = true;
 	sigue();
+	window.plugin.backgroundMode.enable();
   } else {
     myMedia.stop();
     document.getElementById('play').src = "res/images/play.png";    
     playing = false;
 	para();
+	window.plugin.backgroundMode.disable();
   }
 }
 
@@ -232,6 +234,7 @@ function stopAudio() {
 	playing = false;
 	document.getElementById('play').src = "res/images/play.png";  
 	para();  
+	window.plugin.backgroundMode.disable();
 	document.getElementById('tiempo_transcurrido').innerHTML = "00:00:00";
 }
 function onBodyLoad(){
