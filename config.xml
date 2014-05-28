@@ -36,7 +36,7 @@
 	<gap:plugin name="org.apache.cordova.device" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.media" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
-	<gap:plugin name="org.apache.cordova.media-capture" version="0.2.8" /> 
+	<gap:plugin name="org.apache.cordova.media-capture" version="0.2.4" /> 
 	<gap:plugin name="org.apache.cordova.file" version="0.2.4" />
 	
     
