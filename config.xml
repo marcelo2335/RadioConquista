@@ -32,12 +32,12 @@
 	<preference name="phonegap-version" value="3.0.0" />.
 
     
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.2.3" />
 	<gap:plugin name="org.apache.cordova.device" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.media" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
 	<gap:plugin name="org.apache.cordova.media-capture" version="0.2.8" /> 
-	
+	<gap:plugin name="org.apache.cordova.file" version="0.2.4" />
 	
     
     <!-- iPhone / iPod Touch  -->
