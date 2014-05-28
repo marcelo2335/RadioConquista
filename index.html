@@ -216,12 +216,12 @@ function validateMessage(){
 function playAudio() {
   if (!playing) {
     myMedia.play(); 
-    document.getElementById('play').src = "images/pause.png";
+    document.getElementById('play').src = "res/images/pause.png";
     playing = true;
 	sigue();
   } else {
     myMedia.stop();
-    document.getElementById('play').src = "images/play.png";    
+    document.getElementById('play').src = "res/images/play.png";    
     playing = false;
 	para();
   }
@@ -230,7 +230,7 @@ function playAudio() {
 function stopAudio() {
 	myMedia.stop();
 	playing = false;
-	document.getElementById('play').src = "images/play.png";  
+	document.getElementById('play').src = "res/images/play.png";  
 	para();  
 	document.getElementById('tiempo_transcurrido').innerHTML = "00:00:00";
 }
@@ -238,17 +238,12 @@ function onBodyLoad(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 function onDeviceReady(){
+	myMedia = new Media("http://85.17.30.50:8064/;stream/1");
 	$('#modal').css('display','block');
 	$('#cuadro').css('display','block');
 	$('#avisos').append("<p>Listo.</p>");
-	updateMedia();
 }
-function updateMedia(){
-	if (myMedia != null) {
-		myMedia.release();
-	}
-	myMedia = new Media("http://85.17.30.50:8064/;stream/1");
-}
+
 
 horas=0; minutos=0; segundos=0;
 function Tiempo() {
