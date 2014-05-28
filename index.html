@@ -40,7 +40,7 @@
   
   <script type="text/javascript">
 //<![CDATA[
-
+	var errorMsj = "";
 $(document).ready(function(){
 	
 	$.event.special.tap = {
@@ -58,8 +58,6 @@ $(document).ready(function(){
   		}
 	};
 
-	var errorMsj = "";
-
 	var stream = {
 		title: "Radio Conquista",
 		mp3: "http://85.17.30.50:8064/;stream/1",
@@ -74,7 +72,7 @@ $(document).ready(function(){
 		pause: function() {
 			$(this).jPlayer("clearMedia");
 			navigator.notification.alert('Paused!', function(){}, 'Status', 'Done'	);
-			window.plugin.backgroundMode.disable();
+			window.plugins.BackgroundJS.UnlockBackgroundTime(function(){}, function(msg){console.log(msg);});
 		},
 		error: function(event) {
 			if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
@@ -84,7 +82,7 @@ $(document).ready(function(){
 		},
 		play:function(){
 			navigator.notification.alert('Playing!', function(){}, 'Status', 'Done'	);
-			window.plugin.backgroundMode.enable();
+			window.plugins.BackgroundJS.LockBackgroundTime(function(){}, function(msg){console.log(msg);});
 		},
 		swfPath: "js",
 		supplied: "mp3",
