@@ -58,6 +58,7 @@ $(document).ready(function(){
   		}
 	};
 
+	var errorMsj = "";
 
 	var stream = {
 		title: "Radio Conquista",
@@ -73,7 +74,7 @@ $(document).ready(function(){
 		pause: function() {
 			$(this).jPlayer("clearMedia");
 			navigator.notification.alert('Paused!', function(){}, 'Status', 'Done'	);
-			window.plugin.backgroundMode.enable();
+			window.plugin.backgroundMode.disable();
 		},
 		error: function(event) {
 			if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
@@ -83,7 +84,7 @@ $(document).ready(function(){
 		},
 		play:function(){
 			navigator.notification.alert('Playing!', function(){}, 'Status', 'Done'	);
-			window.plugin.backgroundMode.disable();
+			window.plugin.backgroundMode.enable();
 		},
 		swfPath: "js",
 		supplied: "mp3",
@@ -157,8 +158,9 @@ $(document).ready(function(){
 				}
 			});
 		}else{
-			$('#modal').css('display','block');
-			$('#cuadro').css('display','block');
+			navigator.notification.alert(errorMsj, function(){}, 'Alert', 'Ok'	);
+			//$('#modal').css('display','block');
+			//$('#cuadro').css('display','block');
 			return false;
 		}
 	});
@@ -184,10 +186,10 @@ function validateName(){
 	var x=$('#yourname').val();
 	if (x==null || x==""){
 		//alert("Your name must be filled out");
-		$('#avisos').append("<p>Your name must be filled out.</p>");
-		$('#yourname').css('border-color','#FF0000');
+		//$('#avisos').append("<p>Your name must be filled out.</p>");
+		errorMsj="Your name must be filled out.";
 		return false;
-	}else{$('#yourname').css('border-color','#f0f0f0'); return true;}
+	}else{return true;}
 }
 function validateEmail(){
 	var x=$('#youremail').val();
@@ -195,19 +197,19 @@ function validateEmail(){
 	var dotpos=x.lastIndexOf(".");
 	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
 		//alert("Not a valid e-mail address");
-		$('#avisos').append("<p>Not a valid e-mail address.</p>");
-		$('#youremail').css('border-color','#FF0000');
+		//$('#avisos').append("<p>Not a valid e-mail address.</p>");
+		errorMsj="Not a valid e-mail address.";
 		return false;
-	}else{$('#youremail').css('border-color','#f0f0f0'); return true;}
+	}else{return true;}
 }
 function validateMessage(){
 	var x=$('#yourmessage').val();
 	if (x==null || x==""){
-		$('#avisos').append("<p>Your message is empty.</p>");
+		//$('#avisos').append("<p>Your message is empty.</p>");
 		//alert("Your message is empty.");
-		$('#yourmessage').css('border-color','#FF0000');
+		errorMsj="Your message is empty.";
 		return false;
-	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
+	}else{return true;}
 }
 
 
@@ -215,9 +217,6 @@ function onBodyLoad(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 function onDeviceReady(){
-	$('#modal').css('display','block');
-	$('#cuadro').css('display','block');
-	$('#avisos').append("<p>Listo.</p>");
 	navigator.notification.alert(
     	'You are the winner!',  // message
    		function(){},         // callback
@@ -263,10 +262,7 @@ function timerStop() { clearInterval(timer); }
 	</div>
    
    <div class="content">
-   
-   	<a href="#" onclick="playAudio()"><img id="play" src="res/images/play.png" /></a>
-    <a href="#" onclick="stopAudio()"><img id="stop" src="res/images/pause.png" /></a>
-    <p id="tiempo_transcurrido">00:00:00</p>
+  
 
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		
