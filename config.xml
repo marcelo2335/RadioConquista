@@ -37,6 +37,8 @@
 	<gap:plugin name="org.apache.cordova.media" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
 	<gap:plugin name="org.apache.cordova.media-capture" version="0.2.4" /> 
+	
+	<content src="index.html" />
     
     <!-- iPhone / iPod Touch  -->
 <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
