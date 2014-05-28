@@ -40,6 +40,8 @@
   
   <script type="text/javascript">
 //<![CDATA[
+var myMedia = null;
+var playing = false;
 
 $(document).ready(function(){
 	
@@ -215,18 +217,22 @@ function playAudio() {
   if (!playing) {
     myMedia.play(); 
     document.getElementById('play').src = "images/pause.png";
-    playing = true; 
+    playing = true;
+	sigue();
   } else {
     myMedia.stop();
     document.getElementById('play').src = "images/play.png";    
-    playing = false; 
+    playing = false;
+	para();
   }
 }
 
 function stopAudio() {
-  myMedia.stop();
-  playing = false;
-  document.getElementById('play').src = "images/play.png";    
+	myMedia.stop();
+	playing = false;
+	document.getElementById('play').src = "images/play.png";  
+	para();  
+	document.getElementById('tiempo_transcurrido').innerHTML = "00:00:00";
 }
 function onBodyLoad(){
 	document.addEventListener("deviceready", onDeviceReady, false);
@@ -235,8 +241,35 @@ function onDeviceReady(){
 	$('#modal').css('display','block');
 	$('#cuadro').css('display','block');
 	$('#avisos').append("<p>Listo.</p>");
-	var myMedia = new Media("http://85.17.30.50:8064/;stream/1");
+	updateMedia();
 }
+function updateMedia(){
+	if (myMedia != null) {
+		myMedia.release();
+	}
+	myMedia = new Media("http://85.17.30.50:8064/;stream/1");
+}
+
+horas=0; minutos=0; segundos=0;
+function Tiempo() {
+	++segundos;
+	if(segundos==60) { segundos=0; ++minutos }
+	if(minutos==60) { minutos=0; ++horas }
+	if(horas==24) { horas=0;}
+	cad="";
+	if(horas<10){ cad+="0";}
+	cad+=horas;
+	cad+=":";
+	if(minutos<10) {cad+="0";}
+	cad=cad+minutos;
+	cad+=":";
+	if(segundos<10) {cad+="0";}
+	cad=cad+segundos;
+	document.getElementById('tiempo_transcurrido').innerHTML = cad;
+}
+var timer;
+function sigue() { timer=setInterval("Tiempo()",1000) }
+function para() { clearInterval(id) }
 //]]>
 </script>
   
@@ -256,7 +289,7 @@ function onDeviceReady(){
    
    	<a href="#" onclick="playAudio()"><img id="play" src="res/images/play.png" /></a>
     <a href="#" onclick="stopAudio()"><img id="stop" src="res/images/pause.png" /></a>
-    <p id="audio_position">0.000 sec</p>
+    <p id="tiempo_transcurrido">00:00:00</p>
 
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		

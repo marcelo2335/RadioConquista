@@ -76,11 +76,5 @@
     </array>
 </gap:config-file>
 
-<feature name="Media">
-    <param name="ios-package" value="CDVSound" />
-</feature>
-<feature name="Capture">
-    <param name="ios-package" value="CDVCapture" />
-</feature>
 
 </widget>
