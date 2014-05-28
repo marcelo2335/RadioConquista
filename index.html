@@ -40,17 +40,8 @@
   
   <script type="text/javascript">
 //<![CDATA[
-var myMedia = null;
-var playing = false;
 
 $(document).ready(function(){
-	
-	
-	/***************************************************************************************************/
-	
-	//var myMedia = new Media("http://85.17.30.50:8064/;stream/1");
-	
-	/***************************************************************************************************/
 	
 	$.event.special.tap = {
 		setup: function() {
@@ -81,12 +72,18 @@ $(document).ready(function(){
 		},
 		pause: function() {
 			$(this).jPlayer("clearMedia");
+			navigator.notification.alert('Paused!', function(){}, 'Status', 'Done'	);
+			window.plugin.backgroundMode.enable();
 		},
 		error: function(event) {
 			if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
 				// Setup the media stream again and play it.
 				$(this).jPlayer("setMedia", stream).jPlayer("play");
 			}
+		},
+		play:function(){
+			navigator.notification.alert('Playing!', function(){}, 'Status', 'Done'	);
+			window.plugin.backgroundMode.disable();
 		},
 		swfPath: "js",
 		supplied: "mp3",
@@ -213,38 +210,20 @@ function validateMessage(){
 	}else{$('#yourmessage').css('border-color','#f0f0f0'); return true;}
 }
 
-function playAudio() {
-  if (!playing) {
-    myMedia.play(); 
-    document.getElementById('play').src = "res/images/pause.png";
-    playing = true;
-	sigue();
-	window.plugin.backgroundMode.enable();
-  } else {
-    myMedia.stop();
-    document.getElementById('play').src = "res/images/play.png";    
-    playing = false;
-	para();
-	window.plugin.backgroundMode.disable();
-  }
-}
 
-function stopAudio() {
-	myMedia.stop();
-	playing = false;
-	document.getElementById('play').src = "res/images/play.png";  
-	para();  
-	window.plugin.backgroundMode.disable();
-	document.getElementById('tiempo_transcurrido').innerHTML = "00:00:00";
-}
 function onBodyLoad(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 }
 function onDeviceReady(){
-	myMedia = new Media("http://85.17.30.50:8064/;stream/1");
 	$('#modal').css('display','block');
 	$('#cuadro').css('display','block');
 	$('#avisos').append("<p>Listo.</p>");
+	navigator.notification.alert(
+    	'You are the winner!',  // message
+   		function(){},         // callback
+    	'Game Over',            // title
+	    'Done'                  // buttonName
+	);
 }
 
 
@@ -266,8 +245,8 @@ function Tiempo() {
 	document.getElementById('tiempo_transcurrido').innerHTML = cad;
 }
 var timer;
-function sigue() { timer=setInterval("Tiempo()",1000) }
-function para() { clearInterval(id) }
+function timerStart() { timer=setInterval("Tiempo()",1000); }
+function timerStop() { clearInterval(timer); }
 //]]>
 </script>
   
