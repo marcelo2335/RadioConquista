@@ -33,7 +33,6 @@
 
     
     <gap:plugin name="org.apache.cordova.inappbrowser" version="0.2.4" />
-	<gap:plugin name="org.apache.cordova.device" version="0.2.8" />
 	<gap:plugin name="org.apache.cordova.dialogs" version="0.2.6" />
 	<gap:plugin name="com.badrit.backgroundjs" version="0.1.0" />
 	
